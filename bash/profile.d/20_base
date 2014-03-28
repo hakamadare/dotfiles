@@ -1,0 +1,91 @@
+# This basic, reasonably well-commented .bashrc file provides some sane and
+# easier to use defaults. Modify as you see fit to suit your style.
+#
+# Hints:
+# - run `alias` to see all defined aliases, set new ones in here so that the
+#   persist across sessions
+# - put custom scripts into a "bin" directory in your home directory to be able
+#   to execute them from anywhere (make it with `mkdir ~/bin`)
+# - run `history` to see your command history, re-run a command from history by
+#   calling the line number like this: `!10`
+# - make sure your terminal emulator supports and is advertising as xterm-color
+
+# if not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# if there is a global bashrc file on this host, load it first
+[ -f /etc/bashrc ] && source /etc/bashrc
+
+# nano is a nice default editor, you can also set this to vim or emacs
+export EDITOR='mvim -f'
+export PAGER='less'
+
+# some programs will display color output if this is set
+export CLICOLOR=1
+
+# don't put duplicate lines in the history. See bash(1) for more options
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# automatically fix directory misspellings
+shopt -s cdspell
+
+# save multi-line commands into one history line
+shopt -s cmdhist
+
+# keep more history than standard
+HISTSIZE=500
+HISTFILESIZE=1000
+
+# add a colored timestamp to history output
+HISTTIMEFORMAT=`echo -e "$\033[0;33m%h %e %H:%M$\033[0m  "`
+
+# check window size after each command and update LINES/COLUMNS if necessary
+shopt -s checkwinsize
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /opt/boxen/homebrew/bin/lesspipe.sh ] && eval "$(SHELL=/bin/sh /opt/boxen/homebrew/bin/lesspipe.sh)"
+
+# only display up to 3 directory segments on the prompt so it stays small
+export PROMPT_DIRTRIM=3
+
+# use a color prompt if possible
+if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+  PS1='[\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w\[\033[00m\]]\$ '
+else
+  PS1='[\u@\h \w]\$ '
+fi
+
+# enable color support for ls and grep
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  alias ls='ls -G -F -h'
+else
+  alias ls='ls --color=auto -F -h'
+fi
+alias grep='grep -E --color=auto'
+
+# if detached tmux sessions are running, display them on login
+if [[ `which tmux 2>/dev/null` && "x$(tmux list-sessions 2>/dev/null | grep -v "(attached)")" != "x" ]]; then
+  echo "Detached tmux sessions:"
+  tmux list-sessions | grep -v "(attached)" | sed 's/^/  /'
+  echo "Run \"tmux attach\" to reconnect."
+fi
+
+# enable programmable completion features if they are installed
+if ! shopt -oq posix; then
+  if [ -f $(brew --prefix)/etc/bash_completion ]; then
+    . $(brew --prefix)/etc/bash_completion
+  fi
+fi
+
+# handy aliases
+alias quota='quota -s'     # human-readable quota
+alias df='df -h'           # human-readable disk free
+alias free='free -t -m'    # human-readable free memory
+
+# if /usr/local/bin or ~/bin exist, add them to the path automatically
+[ -d /usr/local/bin ] && PATH=/usr/local/bin:${PATH}
+[ -d $HOME/bin ] && PATH=$HOME/bin:${PATH}
+export PATH

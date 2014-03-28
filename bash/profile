@@ -1,0 +1,12 @@
+# master bash profile
+# link ~/.profile to this
+
+export DOTFILES="~/.dotfiles"
+export BASH_DOTFILES="${DOTFILE}/bash"
+
+# import all the imports
+for i in $(ls "${BASH_DOTFILES}/profile.d"); do
+    if ! [[ -d $i ]]; then
+        source $i
+    fi
+done
