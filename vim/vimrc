@@ -127,7 +127,7 @@ let g:solarized_termcolors=256
 " Powerline
 function! GetPowerlinePath()
     python import pkgutil
-    let powerline_pase = pyeval('pkgutil.get_loader("powerline").filename')
+    let powerline_base = pyeval('pkgutil.get_loader("powerline").filename')
     if powerline_base
         let powerline_path = powerline_base . "/bindings/vim"
         return powerline_path
