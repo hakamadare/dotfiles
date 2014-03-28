@@ -224,12 +224,6 @@ runtime macros/matchit.vim  " enable vim's built-in matchit script (make % bounc
 " vim-sleuth
 " Bundle: tpope/vim-sleuth v1.1
 
-" vim-airline
-" Bundle: bling/vim-airline v0.6
-
-" vim-virtualenv
-" Bundle: jmcantrell/vim-virtualenv
-
 " tcomment
 " let g:tcomment_types = {'jinja': ['mode'='G', 'begin'='{# ', 'end'=' #}',]}
 
