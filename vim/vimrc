@@ -118,13 +118,12 @@ nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 " Pathogen ho!
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-" Bundle: tpope/vim-pathogen
 call pathogen#infect()
 
 " color schemes
 set background=dark
-"colorscheme solarized
-"let g:solarized_termcolors=256
+colorscheme solarized
+let g:solarized_termcolors=256
 
 " PCRE for search/replace
 " https://github.com/othree/eregex.vim
