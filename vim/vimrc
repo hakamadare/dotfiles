@@ -127,7 +127,7 @@ let g:solarized_termcolors=256
 " Powerline
 function! GetPowerlinePath()
     python import pkgutil
-    return pyeval('print pkgutil.get_loader("powerline").filename')
+    return pyeval('pkgutil.get_loader("powerline").filename')
 endfunction
 let s:powerline_path = GetPowerlinePath()
 if s:powerline_path
