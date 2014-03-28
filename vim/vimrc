@@ -136,10 +136,7 @@ function! GetPowerlinePath()
     endif
 endfunction
 
-let s:powerline_path_vim = GetPowerlinePath()
-if !empty(s:powerline_path_vim)
-    set rtp+=s:powerline_path_vim
-endif
+set rtp+=GetPowerlinePath()
 
 " PCRE for search/replace
 " https://github.com/othree/eregex.vim
