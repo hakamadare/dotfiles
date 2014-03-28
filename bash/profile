@@ -16,6 +16,7 @@ if [[ -f "$CREDENTIALS_FILE" ]]; then
 else
     cat <<CREDS >"$CREDENTIALS_FILE"
 # bash credentials file
+# put this in ~/.bash_credentials
 
 CREDS
     chmod 600 "$CREDENTIALS_FILE"

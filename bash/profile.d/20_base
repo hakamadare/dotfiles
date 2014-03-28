@@ -98,3 +98,5 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
+# vi mode for editing
+set -o vi
