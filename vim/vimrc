@@ -127,18 +127,14 @@ let g:solarized_termcolors=256
 " Powerline
 function! GetPowerlinePath()
     python import pkgutil
-    let powerline_base = pyeval('pkgutil.get_loader("powerline").filename')
-    if powerline_base
-        let powerline_path = powerline_base . "/bindings/vim"
-        return powerline_path
-    else
-        return ""
-    endif
+    let a:powerline_base = pyeval('pkgutil.get_loader("powerline").filename')
+    let a:powerline_path = a:powerline_base . "/bindings/vim"
+    return a:powerline_path
 endfunction
 
 let powerline_path_vim = GetPowerlinePath()
 if powerline_path_vim
-        set rtp+=powerline_path_vim
+    set rtp+=powerline_path_vim
 endif
 
 " PCRE for search/replace
