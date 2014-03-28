@@ -6,7 +6,7 @@ export BASH_DOTFILES="${DOTFILE}/bash"
 
 # import credentials
 CREDENTIALS_FILE="~/.bash_credentials"
-if [[ -r $CREDENTIALS_FILE ]]; then
+if [[ -f $CREDENTIALS_FILE ]]; then
     source $CREDENTIALS_FILE
 else
     cat << CREDS > $CREDENTIALS_FILE
@@ -18,7 +18,7 @@ fi
 
 # import all the imports
 for i in $(ls "${BASH_DOTFILES}/profile.d"); do
-    if ! [[ -d $i ]]; then
+    if ! [[ -z $i ]]; then
         source $i
     fi
 done
