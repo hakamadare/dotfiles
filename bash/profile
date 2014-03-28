@@ -2,7 +2,7 @@
 # link ~/.profile to this
 
 # optionally enable debugging
-if ! [[ -z $PROFILE_DEBUG ]]; then
+if ! [[ -z "$PROFILE_DEBUG" ]]; then
     set -o xtrace
 fi
 
@@ -11,14 +11,14 @@ export BASH_DOTFILES="${DOTFILE}/bash"
 
 # import credentials
 CREDENTIALS_FILE="~/.bash_credentials"
-if [[ -f $CREDENTIALS_FILE ]]; then
-    source $CREDENTIALS_FILE
+if [[ -f "$CREDENTIALS_FILE" ]]; then
+    source "$CREDENTIALS_FILE"
 else
-    cat << CREDS > $CREDENTIALS_FILE
+    cat << CREDS > "$CREDENTIALS_FILE"
 # bash credentials file
 
 CREDS
-    chmod 600 $CREDENTIALS_FILE
+    chmod 600 "$CREDENTIALS_FILE"
 fi
 
 # import all the imports
@@ -29,7 +29,7 @@ for i in $(ls "${BASH_DOTFILES}/profile.d"); do
 done
 
 # disable debugging if enabled
-if ! [[ -z $PROFILE_DEBUG ]]; then
+if ! [[ -z "$PROFILE_DEBUG" ]]; then
     set +o xtrace
 fi
 
