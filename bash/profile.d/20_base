@@ -79,6 +79,7 @@ if ! shopt -oq posix; then
     . $(brew --prefix)/etc/bash_completion
   fi
 fi
+source <(npm completion)
 
 # handy aliases
 alias quota='quota -s'     # human-readable quota
