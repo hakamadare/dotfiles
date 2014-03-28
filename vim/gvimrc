@@ -1,0 +1,36 @@
+" shuff's gvim customizations
+" The commands in this are executed when the GUI is started.
+
+" Disable the toolbar
+set guioptions-=T
+
+set mousehide		" Hide the mouse when typing text
+
+" Make shift-insert work like in Xterm
+map <S-Insert> <MiddleMouse>
+map! <S-Insert> <MiddleMouse>
+
+" Only do this for Vim version 5.0 and later.
+if version >= 500
+
+  " Set a reasonable default font?
+  if has("mac")
+      set guifont=Inconsolata\ for\ Powerline:h16
+  elseif has("unix")
+      set guifont=Inconsolata\ 16
+  endif
+
+  "How about a larger starting window?
+  set lines=40 columns=80
+
+  " Do not ring the bell, ever
+  set visualbell
+
+  " hide gvim's toolbar by default
+  set guioptions-=T
+
+  " Tab label is filename, tooltip is full path and file name
+  set guitablabel=%t
+  set guitabtooltip=%F
+
+endif

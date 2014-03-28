@@ -1,0 +1,244 @@
+" shuff's .vimrc
+"
+" Don't use abbreviations!  Spelling things out makes grepping easy.
+" After installing this .vimrc, run vim-update-bundles to install the
+" plugins: https://github.com/bronson/vim-update-bundles
+
+set nocompatible
+filetype on   " work around stupid osx bug
+filetype off
+
+filetype indent plugin on
+syntax on
+
+set encoding=utf-8
+
+set showcmd           " show incomplete cmds down the bottom
+set showmode          " show current mode down the bottom
+
+set modeline          " read modelines
+
+set incsearch         " find the next match as we type the search
+set hlsearch          " hilight searches by default, unset the register with CR
+nnoremap <CR> :noh<CR><CR>
+set wrap              " by default, wrap lines (see <leader>w)
+set linebreak         " by default, don't break in the middle of a word
+set showmatch         " briefly jump to matching }] when typing
+set nostartofline     " don't jump to start of line as a side effect (i.e. <<)
+
+set scrolloff=3       " lines to keep visible before and after cursor
+set sidescrolloff=7   " columns to keep visible before and after cursor
+set sidescroll=1      " continuous horizontal scroll rather than jumpy
+
+set laststatus=2      " always display status line even if only one window is visible.
+set updatetime=1000   " reduce updatetime so current tag in taglist is highlighted faster
+set autoread          " suppress warnings when git,etc. changes files on disk.
+set autowrite         " write buffers before invoking :make, :grep etc.
+set nrformats=alpha,hex " C-A/C-X works on dec, hex, and chars (not octal so no leading 0 ambiguity)
+
+set wildmode=list:longest   "make cmdline tab completion similar to bash
+set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+
+set backspace=indent,eol,start "allow backspacing over everything in insert mode
+set history=1000               "store lots of :cmdline history
+
+set hidden          " allow buffers to go into the background without needing to save
+
+let g:is_posix = 1  " vim's default is archaic bourne shell, bring it up to the 90s.
+
+set visualbell      " don't beep constantly, it's annoying.
+set t_vb=           " and don't flash the screen either (terminal anyway...
+
+" search for a tags file recursively from cwd to /
+set tags=.tags,tags;/
+
+set writebackup       " keep a backup file, delete after successful write
+" Store swapfiles in a single directory.
+set backupdir=~/.vim/tmp,/tmp/vim-$USER,/tmp
+set directory=~/.vim/tmp,/tmp/vim-$USER,/tmp
+
+" indenting, languages
+
+set expandtab         " use spaces instead of tabstops
+set smarttab          " use shiftwidth when hitting tab instead of sts (?)
+set autoindent        " try to put the right amount of space at the beginning of a new line
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
+" fixes
+
+" add a keybinding to toggle paste mode
+nnoremap <leader>p :set paste!<CR>:set paste?<CR>
+
+" make ' jump to saved line & column rather than just line.
+" http://items.sjbach.com/319/configuring-vim-right
+nnoremap ' `
+nnoremap ` '
+
+" make Y yank to the end of the line (like C and D).  Use yy to yank the entire line.
+" Upside: feels more natural.  Downside: not stock vi/vim.
+nmap Y y$
+
+" Make the quickfix window wrap no matter the setting of nowrap
+au BufWinEnter * if &buftype == 'quickfix' | setl wrap | endif
+" 'q' inside quickfix window closes it (like nerdtree, bufexplorer, etc)
+au BufWinEnter * if &buftype == 'quickfix' | map q :cclose<CR> | endif
+
+" Don't use ex mode, use Q for formatting
+map Q gq
+
+" Make Alt-Arrows switch between windows (like C-W h, etc)
+" nmap <silent> <A-Up> :wincmd k<CR>
+" nmap <silent> <A-Down> :wincmd j<CR>
+" nmap <silent> <A-Left> :wincmd h<CR>
+" nmap <silent> <A-Right> :wincmd l<CR>
+
+" Make Control-direction switch between windows (like C-W h, etc)
+nmap <silent> <C-k> :wincmd k<CR>
+nmap <silent> <C-j> :wincmd j<CR>
+nmap <silent> <C-h> :wincmd h<CR>
+nmap <silent> <C-l> :wincmd l<CR>
+
+" quicker to navigate the quickfix window, just control-n, control-p
+nmap <silent> <C-n> :cn<CR>
+nmap <silent> <C-p> :cp<CR>
+
+" Append modeline after last line in buffer.
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" files.
+function! AppendModeline()
+  let l:modeline = printf(" vim: set ft=%s ts=%d sw=%d tw=%d foldmethod=%s :",
+        \ &filetype, &tabstop, &shiftwidth, &textwidth, &foldmethod)
+  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+  call append(line("$"), l:modeline)
+endfunction
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" Pathogen ho!
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+" Bundle: tpope/vim-pathogen
+call pathogen#infect()
+
+" color schemes
+set background=dark
+"colorscheme solarized
+"let g:solarized_termcolors=256
+
+" PCRE for search/replace
+" https://github.com/othree/eregex.vim
+" Bundle: othree/eregex.vim
+"nnoremap / :M/
+"nnoremap ? :M?
+"nnoremap ,/ /
+"nnoremap ,? ?
+
+" Other custom commands
+
+" Markdown filtering
+command -range=% Markdown <line1>,<line2>!markdown
+
+" HTML Tidy filtering
+command -range=% HTidy <line1>,<line2>!tidyp -ashtml -wrap 72 -config ~/.vim/tidy/tidy.conf
+command -range=% XTidy <line1>,<line2>!tidyp -asxhtml -wrap 0 -config ~/.vim/tidy/tidy.conf
+
+" Plugins:
+
+runtime macros/matchit.vim  " enable vim's built-in matchit script (make % bounce between tags, begin/end, etc)
+
+" Bundle: tpope/vim-surround
+" https://github.com/tpope/vim-surround/commit/f6c9d3beb2d11959d22b2555636aeb0c37e66aa1
+" autocmd VimEnter * xunmap s
+
+" Bundle: majutsushi/tagbar
+"nmap <Space>l :TagbarToggle<cr>
+
+" Bundle: msanders/snipmate.vim
+" Bundle: scrooloose/snipmate-snippets
+
+" Bundle: godlygeek/tabular
+
+" Bundle: tpope/vim-repeat v1.0
+
+" fugitive
+" Bundle: tpope/vim-fugitive v1.2
+" TODO: this prompt seems to cause huge delays with big repos on MacOS X
+"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+" gitgutter
+" Bundle: airblade/vim-gitgutter
+
+" Gundo
+" Bundle: sjl/gundo.vim v2.5.0
+"nnoremap <C-U> :GundoToggle<CR>
+
+" Bundle: bronson/vim-trailing-whitespace 1.0
+" Bundle: bronson/vim-toggle-wrap 0.1
+
+
+" Syntax Files:
+" Bundle: tpope/vim-git v6.0
+" TODO: should move back to hallison or plasticboy markdown when they pick up new changes
+" DISABLEDBundle: gmarik/vim-markdown v1.2.2
+" Bundle: plasticboy/vim-markdown
+" Bundle: ajf/puppet-vim
+"let g:vim_markdown_folding_disabled=1
+
+" Color Schemes:
+" Bundle: altercation/vim-colors-solarized
+
+" Syntastic
+" Bundle: scrooloose/syntastic 3.0.0
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_enable_signs=1
+"let g:syntastic_quiet_warnings=1
+"let g:syntastic_auto_loc_list=1
+"let g:syntastic_perl_lib_path="./lib"
+"let g:syntastic_python_checkers = ['flake8']
+"let g:syntastic_puppet_parser_arguments = ' --parser future '
+" let g:syntastic_puppet_lint_disable=1
+
+" let g:syntastic_disabled_filetypes = [ 'perl' ]
+
+" ack
+" Bundle: mileszs/ack.vim
+
+" GnuPG
+" Bundle: jamessan/vim-gnupg v2.5
+
+" line numbering
+" Bundle: myusuf3/numbers.vim
+
+" ConqueTerm
+" Bundle: nicoraffo/conque
+"let g:ConqueTerm_Color = 1
+"let g:ConqueTerm_TERM = 'xterm-256color'
+
+" JSON
+" Bundle: leshill/vim-json
+
+" vim-sleuth
+" Bundle: tpope/vim-sleuth v1.1
+
+" vim-airline
+" Bundle: bling/vim-airline v0.6
+
+" vim-virtualenv
+" Bundle: jmcantrell/vim-virtualenv
+
+" tcomment
+" let g:tcomment_types = {'jinja': ['mode'='G', 'begin'='{# ', 'end'=' #}',]}
+
+" Static bundles
+" Static: debcontrol_syntax
+" Static: svncommit
+" Static: syscolorize
+" Static: taskwarrior
+" Static: tcomment_vim
+" Static: Wikipedia
+" Static: csv.vim
+" Static: jinja
