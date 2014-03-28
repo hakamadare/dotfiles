@@ -6,11 +6,11 @@ if ! [[ -z "$PROFILE_DEBUG" ]]; then
     set -o xtrace
 fi
 
-export DOTFILES="~/.dotfiles"
+export DOTFILES="${HOME}/.dotfiles"
 export BASH_DOTFILES="${DOTFILES}/bash"
 
 # import credentials
-CREDENTIALS_FILE="~/.bash_credentials"
+CREDENTIALS_FILE="${HOME}/.bash_credentials"
 if [[ -f "$CREDENTIALS_FILE" ]]; then
     source "$CREDENTIALS_FILE"
 else
