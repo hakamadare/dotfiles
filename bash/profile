@@ -7,14 +7,14 @@ if ! [[ -z "$PROFILE_DEBUG" ]]; then
 fi
 
 export DOTFILES="~/.dotfiles"
-export BASH_DOTFILES="${DOTFILE}/bash"
+export BASH_DOTFILES="${DOTFILES}/bash"
 
 # import credentials
 CREDENTIALS_FILE="~/.bash_credentials"
 if [[ -f "$CREDENTIALS_FILE" ]]; then
     source "$CREDENTIALS_FILE"
 else
-    cat << CREDS > "$CREDENTIALS_FILE"
+    cat <<CREDS >"$CREDENTIALS_FILE"
 # bash credentials file
 
 CREDS
