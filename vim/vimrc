@@ -133,7 +133,7 @@ function! GetPowerlinePath()
         return powerline_path
     else
         return ""
-    fi
+    endif
 endfunction
 
 let powerline_path_vim = GetPowerlinePath()
