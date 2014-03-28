@@ -78,8 +78,8 @@ if ! shopt -oq posix; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
   fi
+  source <(npm completion)
 fi
-source <(npm completion)
 
 # handy aliases
 alias quota='quota -s'     # human-readable quota
@@ -98,6 +98,9 @@ if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
 fi
 source "$fasd_cache"
 unset fasd_cache
+
+# hub
+eval "$(hub alias -s)"
 
 # vi mode for editing
 set -o vi
