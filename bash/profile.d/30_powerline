@@ -1,0 +1,7 @@
+# Powerline
+
+powerline_path=$(python -c 'import pkgutil; print pkgutil.get_loader("powerline").filename' 2>/dev/null)
+# clobber existing prompt if we have Powerline
+if ! [[ -z "$powerline_path" ]]; then
+    source ${powerline_path}/bindings/bash/powerline.sh
+fi
