@@ -117,8 +117,7 @@ endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 " Pathogen ho!
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
+execute pathogen#infect()
 
 " color schemes
 set background=dark
@@ -156,14 +155,7 @@ runtime macros/matchit.vim  " enable vim's built-in matchit script (make % bounc
 " Bundle: msanders/snipmate.vim
 " Bundle: scrooloose/snipmate-snippets
 
-" Bundle: godlygeek/tabular
-
 " Bundle: tpope/vim-repeat v1.0
-
-" fugitive
-" Bundle: tpope/vim-fugitive v1.2
-" TODO: this prompt seems to cause huge delays with big repos on MacOS X
-"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 " gitgutter
 " Bundle: airblade/vim-gitgutter
@@ -181,11 +173,7 @@ runtime macros/matchit.vim  " enable vim's built-in matchit script (make % bounc
 " TODO: should move back to hallison or plasticboy markdown when they pick up new changes
 " DISABLEDBundle: gmarik/vim-markdown v1.2.2
 " Bundle: plasticboy/vim-markdown
-" Bundle: ajf/puppet-vim
 "let g:vim_markdown_folding_disabled=1
-
-" Color Schemes:
-" Bundle: altercation/vim-colors-solarized
 
 " Syntastic
 " Bundle: scrooloose/syntastic 3.0.0
