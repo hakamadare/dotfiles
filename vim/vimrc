@@ -136,10 +136,11 @@ function! GetPowerlinePath()
     endif
 endfunction
 
-let s:powerline_path_vim = GetPowerlinePath()
-if !empty(s:powerline_path_vim)
-    let &rtp .= ',' . s:powerline_path_vim
-endif
+"let s:powerline_path_vim = GetPowerlinePath()
+"if !empty(s:powerline_path_vim)
+"    let &rtp .= ',' . s:powerline_path_vim
+"endif
+set rtp+=/Users/shuff/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim
 
 " PCRE for search/replace
 " https://github.com/othree/eregex.vim
