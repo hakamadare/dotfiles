@@ -1,9 +1,6 @@
 " shuff's gvim customizations
 " The commands in this are executed when the GUI is started.
 
-" Disable the toolbar
-set guioptions-=T
-
 set mousehide		" Hide the mouse when typing text
 
 " Make shift-insert work like in Xterm
@@ -21,7 +18,7 @@ if version >= 500
   endif
 
   "How about a larger starting window?
-  set lines=40 columns=80
+  set lines=40 columns=100
 
   " Do not ring the bell, ever
   set visualbell
