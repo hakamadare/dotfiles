@@ -125,22 +125,6 @@ colorscheme solarized
 let g:solarized_termcolors=256
 
 " Powerline
-function! GetPowerlinePath()
-    python import pkgutil
-    let a:powerline_base = pyeval('pkgutil.get_loader("powerline").filename')
-    if !empty(a:powerline_base)
-        let a:powerline_path = a:powerline_base . "/bindings/vim"
-        return a:powerline_path
-    else
-        return ""
-    endif
-endfunction
-
-"let s:powerline_path_vim = GetPowerlinePath()
-"if !empty(s:powerline_path_vim)
-"    let &rtp .= ',' . s:powerline_path_vim
-"endif
-set rtp+=/Users/shuff/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim
 
 " PCRE for search/replace
 " https://github.com/othree/eregex.vim
