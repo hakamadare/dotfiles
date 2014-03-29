@@ -1,1 +1,5 @@
 source /opt/boxen/env.sh
+
+# brew-pip
+export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages
+export PATH=$PATH:$(brew --prefix)/share/python
