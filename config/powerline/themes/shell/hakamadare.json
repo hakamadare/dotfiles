@@ -4,14 +4,23 @@
 		"hostname": {
 			"before": " ",
 			"args": {
-				"only_if_ssh": true
+				"only_if_ssh": true,
+				"exclude_domain": true
 			}
 		},
 		"virtualenv": {
 			"before": "ⓔ  "
 		},
 		"branch": {
-			"before": " "
+			"before": " ",
+			"args": {
+				"status_colors": true
+			}
+		},
+		"cwd": {
+			"args": {
+				"dir_limit_depth": 2
+			}
 		}
 	},
 	"segments": {
@@ -29,10 +38,7 @@
 				"name": "branch"
 			},
 			{
-				"name": "cwd",
-				"args": {
-					"dir_limit_depth": 2
-				}
+				"name": "cwd"
 			},
 			{
 				"module": "powerline.segments.shell",
