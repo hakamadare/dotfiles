@@ -52,3 +52,6 @@
 [submodule "vim/bundle/octopress"]
 	path = vim/bundle/octopress
 	url = https://github.com/tangledhelix/vim-octopress.git
+[submodule "vim/bundle/textile"]
+	path = vim/bundle/textile
+	url = https://github.com/timcharper/textile.vim.git
