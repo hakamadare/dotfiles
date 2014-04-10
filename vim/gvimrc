@@ -30,4 +30,7 @@ if version >= 500
   set guitablabel=%t
   set guitabtooltip=%F
 
+  " Always show the tab bar
+  set showtabline=2
+
 endif
