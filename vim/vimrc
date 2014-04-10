@@ -58,6 +58,9 @@ set writebackup       " keep a backup file, delete after successful write
 set backupdir=~/.vim/tmp,/tmp/vim-$USER,/tmp
 set directory=~/.vim/tmp,/tmp/vim-$USER,/tmp
 
+" Line numbering
+set number
+
 " indenting, languages
 
 set expandtab         " use spaces instead of tabstops
