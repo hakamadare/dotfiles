@@ -1,5 +1,5 @@
 # perlbrew
-if [[ ! -d "~/perl5/perlbrew" ]]; then
+if ! [[ -d "~/perl5/perlbrew" ]]; then
     curl -kL http://install.perlbrew.pl | bash >/dev/null 2>&1
 fi
 
