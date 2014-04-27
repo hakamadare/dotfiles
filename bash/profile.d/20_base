@@ -105,6 +105,7 @@ eval "$(hub alias -s)"
 # colordiff, colormake
 [ -x /opt/boxen/homebrew/bin/colordiff ] && alias diff=colordiff
 [ -x /opt/boxen/homebrew/bin/colormake ] && alias make=colormake
+[ -x /opt/boxen/homebrew/bin/colortail ] && alias tail=colortail
 
 # vi mode for editing
 set -o vi
