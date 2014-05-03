@@ -1,6 +1,7 @@
 source /opt/boxen/env.sh
 
 # toggle Boxen ownership
+export BOXEN_USER=$USER
 TOGGLE_BOXEN="${HOME}/.dotfiles/bin/toggleBoxen.sh"
 if [[ -x $TOGGLE_BOXEN && ! -O $BOXEN_HOME ]]; then
   sudo REAL_USER=$USER $TOGGLE_BOXEN
