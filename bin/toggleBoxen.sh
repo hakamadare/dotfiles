@@ -9,6 +9,7 @@ if [[ -z $REAL_USER ]]; then
 elif [[ -d $BOXEN_HOME ]]; then
   # fix ownership
   chown -R $REAL_USER $BOXEN_HOME 2>/dev/null
+  chown -R $REAL_USER /Library/Caches/Homebrew 2>/dev/null
 
   BOXEN_CONFIG_DEFAULTS="${BOXEN_CONFIG_DIR}/boxen/defaults.json"
   if [[ -w $BOXEN_CONFIG_DEFAULTS ]]; then
