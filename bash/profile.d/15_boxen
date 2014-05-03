@@ -1,5 +1,12 @@
 source /opt/boxen/env.sh
 
+# toggle Boxen ownership
+TOGGLE_BOXEN="${HOME}/.dotfiles/bin/toggleBoxen.sh"
+if [[ -x $TOGGLE_BOXEN ]]; then
+  sudo REAL_USER=$USER $TOGGLE_BOXEN
+  source /opt/boxen/env.sh
+fi
+
 # brew-pip
 export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages
 export PATH=$PATH:$(brew --prefix)/share/python
