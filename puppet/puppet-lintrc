@@ -1,4 +1,4 @@
---no-trailing-whitespace-check
+--no-trailing_whitespace-check
 --no-80chars-check
 --no-variables_not_enclosed
 --no-class_inherits_from_params_class-check
