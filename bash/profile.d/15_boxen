@@ -4,7 +4,7 @@ source /opt/boxen/env.sh
 export BOXEN_USER=$USER
 TOGGLE_BOXEN="${HOME}/.dotfiles/bin/toggleBoxen.sh"
 if [[ -x $TOGGLE_BOXEN && ! -O $BOXEN_HOME ]]; then
-  sudo REAL_USER=$USER $TOGGLE_BOXEN
+  sudo SUDO_REAL_USER=$USER $TOGGLE_BOXEN
   source /opt/boxen/env.sh
 fi
 
