@@ -26,6 +26,8 @@ sub usage() {
 Usage: $0 (--verbose|-v) <hostgroup> (<hostgroup>...)
        $0 (--list|-l)
        $0 (--flush|-f)
+       $0 (--noop|--dry-run|-n)
+       $0 (--package|-p)
 USAGE
     exit 1;
 }
@@ -112,21 +114,30 @@ sub printHostgroup($$) {
 }
 
 sub patchHostgroup($$$$@) {
-    my( $hostgroup, $hostgroups, $noop, $verbose, $excludes ) = ( @_ );
+    my( $hostgroup, $hostgroups, $noop, $verbose, @packages ) = ( @_ );
 
     # build the list of hosts to patch
     my $hosts = $hostgroups->{$hostgroup};
 
     if ( defined( $hosts ) ) {
-        my $patch_cmd = 'sudo aptitude -y -V upgrade';
+        my $patch_cmd = 'sudo aptitude -y -V upgrade ';
+        
         if ( $noop ) {
-            $patch_cmd = 'aptitude -s -y -V upgrade';
+            $patch_cmd = 'echo ' . $patch_cmd;
         }
-
+        
+        # if not given specified packages: don't auto-run
+        if ( scalar( @packages ) ) {
+          $patch_cmd .= join( ' ', @packages );
+        }
+        else {
+          $patch_cmd =~ s/ -y//;
+        }
+        
         my( @commands ) = map {
             my $header = "echo '### Patching $_'";
             my $body = join( ' ', $SSH_CMD, $_, $patch_cmd );
-            my $footer = "echo '### Patched $_'";
+            my $footer = "echo '### Patched $_';echo '--------------------------------------------------'";
             join( "\n", $header, $body, $footer );
         } sort( @{$hosts} );
 
@@ -153,10 +164,12 @@ sub patchHostgroup($$$$@) {
 
 # parse command-line args
 my( $list, $flush, $exclude, $verbose, $noop ) = 0;
+my( @packages );
 my %options = (
     'list|l'         => \$list,
     'noop|dry-run|n' => \$noop,
     'flush|f'        => \$flush,
+    'package|p=s'      => \@packages,
     'exclude|x'      => \$exclude,
     'verbose|v'      => \$verbose,
 );
@@ -202,7 +215,6 @@ else {
     # do some work
     my( @evals );
     while ( my $hostgroup = shift( @ARGV ) ) {
-        # FIXME excludes not implemented yet
-        my $patchcmd = patchHostgroup( $hostgroup, $hostgroups, $noop, $verbose );
+        my $patchcmd = patchHostgroup( $hostgroup, $hostgroups, $noop, $verbose, @packages );
     }
 }
