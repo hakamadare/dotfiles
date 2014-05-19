@@ -79,11 +79,11 @@ if ! shopt -oq posix; then
     . $(brew --prefix)/etc/bash_completion
   fi
 
-  if [[ `which npm >/dev/null 2>&1` ]]; then
+  if [[ `which npm 2>&1` ]]; then
     source <(npm completion)
   fi
 
-  if [[ `which aws >/dev/null 2>&1` ]]; then
+  if [[ `which aws 2>&1` ]]; then
     complete -C aws_completer aws
   fi
 fi
