@@ -2,6 +2,24 @@
 use strict;
 use warnings;
 
+BEGIN {
+  # use RunKeeper libs
+  if ( -d "/usr/local/rk/lib/perl" && !grep( m|^/usr/local/rk/lib/perl$|, @INC ) ) {
+    use lib '/usr/local/rk/lib/perl';
+  }
+
+  use File::Basename;
+  my( $dirname ) = File::Basename::dirname( $0 );
+  if ( grep( /devops-puppet/ ), $dirname  ) {
+    $dirname =~ s|^(.*?/devops-puppet)/.*$|$1/modules/runkeeper/files/filesys/lib/perl|;
+    unshift( @INC, $dirname );
+  }
+  
+  if ( !grep( /^\.$/, @INC ) && -d './RK' ) {
+    use lib '.';
+  }
+}
+
 use Cache::FileCache;
 use Env qw(HOME);
 use File::Spec;
@@ -9,6 +27,7 @@ use Getopt::Long;
 use JSON;
 use LWP::UserAgent;
 use String::ShellQuote;
+use RK::Output qw( ClearTerm EndProgress StatusMesg horizontalRule );
 use URI;
 
 use Readonly;
@@ -35,129 +54,129 @@ USAGE
 # SUBS
 
 sub getHostgroups($$$) {
-    my( $cache, $flush, $raw_url ) = ( @_ );
-    my( $raw_json, $cooked_json );
+  my( $cache, $flush, $raw_url ) = ( @_ );
+  my( $raw_json, $cooked_json );
 
-    my $cooked_url = URI->new( $raw_url );
-    defined( $cooked_url )
-        or die( "'$raw_url' doesn't look like a valid URL.\n" );
+  my $cooked_url = URI->new( $raw_url );
+  defined( $cooked_url ) || die( "'$raw_url' doesn't look like a valid URL.\n" );
 
-    # get JSON from the cache
-    $raw_json = $cache->get( $cooked_url );
+  # get JSON from the cache
+  $raw_json = $cache->get( $cooked_url );
 
-    unless ( defined( $raw_json ) ) {
-        # download the JSON
-        my $ua = LWP::UserAgent->new;
-        $ua->timeout(10);
-        $ua->env_proxy;
+  unless ( defined( $raw_json ) ) {
+    # download the JSON
+    my $ua = LWP::UserAgent->new;
+    $ua->timeout(10);
+    $ua->env_proxy;
 
-        my $response = $ua->get($cooked_url);
+    my $response = $ua->get($cooked_url);
 
-        if ( $response->is_success ) {
-            $raw_json = $response->decoded_content;
-        }
-        else {
-            die( "Unable to query hostgroups: " . $response->status_line . "\n" );
-        }
-
-        # cache the JSON
-        $cache->set( $cooked_url, $raw_json );
+    if ( $response->is_success ) {
+      $raw_json = $response->decoded_content;
+    }
+    else {
+      die( "Unable to query hostgroups: " . $response->status_line . "\n" );
     }
 
-    # parse the JSON
-    $cooked_json = decode_json( $raw_json );
+    # cache the JSON
+    $cache->set( $cooked_url, $raw_json );
+  }
 
-    my $hostgroups;
+  # parse the JSON
+  $cooked_json = decode_json( $raw_json );
 
-    while ( my $host = shift( @{$cooked_json} ) ) {
-        my $name = $host->{ 'host' }->{ 'name' } || 'UNKNOWN';
-        my $hostgroup = $host->{ 'host' }->{ 'hostgroup' } || 'UNKNOWN';
-        push( @{$hostgroups->{ $hostgroup }}, $name );
-    }
+  my $hostgroups;
 
-    return $hostgroups;
+  while ( my $host = shift( @{$cooked_json} ) ) {
+    my $name = $host->{ 'host' }->{ 'name' } || 'UNKNOWN';
+    my $hostgroup = $host->{ 'host' }->{ 'hostgroup' } || 'UNKNOWN';
+    push( @{$hostgroups->{ $hostgroup }}, $name );
+  }
+
+  return $hostgroups;
 }
 
 sub prettyPrint($@) {
-    my( $header, @items ) = ( @_ );
+  my( $header, @items ) = ( @_ );
 
-    my( @output ) = sort( map { sprintf( '    %s', $_ ) } @items );
-    if ( $header ) {
-        unshift( @output, $header );
-    }
+  my( @output ) = sort( map { sprintf( '    %s', $_ ) } @items );
+  if ( $header ) {
+    unshift( @output, $header );
+  }
 
-    print join( "\n", @output ), "\n\n";
+  print join( "\n", @output ), "\n\n";
 }
 
 sub printHostgroups($) {
-    my( $hostgroups ) = ( @_ );
+  my( $hostgroups ) = ( @_ );
 
-    my( @names ) = keys( %{$hostgroups} );
+  my( @names ) = keys( %{$hostgroups} );
 
-    prettyPrint( "Hostgroups:\n", @names );
+  prettyPrint( "Hostgroups:\n", @names );
 }
 
 sub printHostgroup($$) {
-    my( $hostgroup, $hostgroups ) = ( @_ );
+  my( $hostgroup, $hostgroups ) = ( @_ );
 
-    my( @hosts );
-    if ( defined( $hostgroups->{$hostgroup} ) ) {
-        ( @hosts ) = @{$hostgroups->{$hostgroup}};
-    }
+  my( @hosts );
+  if ( defined( $hostgroups->{$hostgroup} ) ) {
+    ( @hosts ) = @{$hostgroups->{$hostgroup}};
+  }
 
-    if ( @hosts ) {
-        prettyPrint( "Hosts in hostgroup '$hostgroup':\n", @hosts );
-    }
-    else {
-        warn( "No hosts found in hostgroup '$hostgroup'!\n" );
-    }
+  if ( @hosts ) {
+    prettyPrint( "Hosts in hostgroup '$hostgroup':\n", @hosts );
+  }
+  else {
+    warn( "No hosts found in hostgroup '$hostgroup'!\n" );
+  }
 }
 
 sub patchHostgroup($$$$@) {
-    my( $hostgroup, $hostgroups, $noop, $verbose, @packages ) = ( @_ );
+  my( $hostgroup, $hostgroups, $noop, $verbose, @packages ) = ( @_ );
 
-    # build the list of hosts to patch
-    my $hosts = $hostgroups->{$hostgroup};
+  # build the list of hosts to patch
+  my $hosts = $hostgroups->{$hostgroup};
 
-    if ( defined( $hosts ) ) {
-        my $patch_cmd = 'sudo aptitude -y -V upgrade ';
-        
-        if ( $noop ) {
-            $patch_cmd = 'echo ' . $patch_cmd;
-        }
-        
-        # if not given specified packages: don't auto-run
-        if ( scalar( @packages ) ) {
-          $patch_cmd .= join( ' ', @packages );
-        }
-        else {
-          $patch_cmd =~ s/ -y//;
-        }
-        
-        my( @commands ) = map {
-            my $header = "echo '### Patching $_'";
-            my $body = join( ' ', $SSH_CMD, $_, $patch_cmd );
-            my $footer = "echo '### Patched $_';echo '--------------------------------------------------'";
-            join( "\n", $header, $body, $footer );
-        } sort( @{$hosts} );
+  if ( defined( $hosts ) ) {
+    my $patch_cmd = 'sudo aptitude -y -V upgrade ';
 
-        my $command = join( '; ', @commands );
+    if ( $noop ) {
+        $patch_cmd = 'echo ' . $patch_cmd;
+    }
 
-        if ( $verbose ) {
-            print "/bin/sh -c $command\n";
-        }
-
-        # execute the command
-        system( $command );
-        my $retval = $? >> 8;
-
-        if ( $retval > 0 ) {
-            warn( "'$command' exited with return value $retval!\n" );
-        }
+    # if not given specified packages: don't auto-run
+    if ( scalar( @packages ) ) {
+      $patch_cmd .= join( ' ', @packages );
     }
     else {
-        warn( "'$hostgroup' doesn't look like a valid hostgroup.\n" );
+      $patch_cmd =~ s/ -y//;
     }
+
+    # loop rather than create one massive shell command
+    for my $h ( sort( @{$hosts} ) ) {
+  
+      StatusMesg( "Patching $h ...");
+      my $command = join( ' ', $SSH_CMD, $h, $patch_cmd );
+  
+      if ( $verbose ) {
+        print "/bin/sh -c $command\n";
+      }
+  
+      # execute the command
+      system( $command );
+      my $retval = $? >> 8;
+
+      if ( $retval > 0 ) {
+          warn( "'$command' exited with return value $retval!\n" );
+      }
+  
+      EndProgress();
+      horizontalRule();
+    }
+  }
+  else {
+    warn( "'$hostgroup' doesn't look like a valid hostgroup.\n" );
+  }
 }
 
 # MAIN
@@ -166,26 +185,23 @@ sub patchHostgroup($$$$@) {
 my( $list, $flush, $exclude, $verbose, $noop ) = 0;
 my( @packages );
 my %options = (
-    'list|l'         => \$list,
-    'noop|dry-run|n' => \$noop,
-    'flush|f'        => \$flush,
-    'package|p=s'      => \@packages,
-    'exclude|x'      => \$exclude,
-    'verbose|v'      => \$verbose,
+  'list|l'         => \$list,
+  'noop|dry-run|n' => \$noop,
+  'flush|f'        => \$flush,
+  'package|p=s'    => \@packages,
+  'exclude|x'      => \$exclude,
+  'verbose|v'      => \$verbose,
 );
 
-GetOptions( %options )
-    or usage();
+GetOptions( %options ) or usage();
 
 # set up the cache
-( -d $CACHE_ROOT )
-    or mkdir( $CACHE_ROOT );
+( -d $CACHE_ROOT ) or mkdir( $CACHE_ROOT );
 
-my $cache = Cache::FileCache->new( {
-    'cache_root'         => $CACHE_ROOT,
-    'namespace'          => $CACHE_NAMESPACE,
-    'default_expires_in' => $CACHE_EXPIRY,
-} ) or die( "Unable to configure cache: $!\n" );
+my $cache = Cache::FileCache->new( { 'cache_root'         => $CACHE_ROOT,
+                                     'namespace'          => $CACHE_NAMESPACE,
+                                     'default_expires_in' => $CACHE_EXPIRY,
+                                   } ) or die( "Unable to configure cache: $!$/" );
 
 my $hostgroups = getHostgroups( $cache, $flush, $HOSTGROUPS_URL );
 
@@ -195,26 +211,25 @@ if ( $flush ) {
     exit 0;
 }
 elsif ( $list ) {
-    if ( scalar( @ARGV ) ) {
-        # print hosts in hostgroups
-        while ( my $hostgroup = shift( @ARGV ) ) {
-            printHostgroup( $hostgroup, $hostgroups );
-        }
+  if ( scalar( @ARGV ) ) {
+    # print hosts in hostgroups
+    while ( my $hostgroup = shift( @ARGV ) ) {
+      printHostgroup( $hostgroup, $hostgroups );
     }
-    else {
-        # print available hostgroups
-        printHostgroups( $hostgroups );
-    }
-
-    exit 0;
+  }
+  else {
+    # print available hostgroups
+    printHostgroups( $hostgroups );
+  }
+  exit 0;
 }
 else {
-    scalar( @ARGV )
-        or usage();
+  scalar( @ARGV ) || usage();
 
-    # do some work
-    my( @evals );
-    while ( my $hostgroup = shift( @ARGV ) ) {
-        my $patchcmd = patchHostgroup( $hostgroup, $hostgroups, $noop, $verbose, @packages );
-    }
+  # do some work
+  my( @evals );
+  ClearTerm();
+  while ( my $hostgroup = shift( @ARGV ) ) {
+    my $patchcmd = patchHostgroup( $hostgroup, $hostgroups, $noop, $verbose, @packages );
+  }
 }
