@@ -10,7 +10,7 @@ BEGIN {
 
   use File::Basename;
   my( $dirname ) = File::Basename::dirname( $0 );
-  if ( grep( /devops-puppet/ ), $dirname  ) {
+  if ( grep( /devops-puppet/, $dirname  ) ) {
     $dirname =~ s|^(.*?/devops-puppet)/.*$|$1/modules/runkeeper/files/filesys/lib/perl|;
     unshift( @INC, $dirname );
   }
