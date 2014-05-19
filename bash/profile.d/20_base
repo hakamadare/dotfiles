@@ -78,8 +78,16 @@ if ! shopt -oq posix; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
   fi
-  source <(npm completion)
+
+  if [[ `which npm >/dev/null 2>&1` ]]; then
+    source <(npm completion)
+  fi
+
+  if [[ `which aws >/dev/null 2>&1` ]]; then
+    complete -C aws_completer aws
+  fi
 fi
+
 
 # handy aliases
 alias quota='quota -s'     # human-readable quota
@@ -109,3 +117,5 @@ eval "$(hub alias -s)"
 
 # vi mode for editing
 set -o vi
+
+# vim: set ft=sh ts=2 sw=2 tw=0 foldmethod=manual :
