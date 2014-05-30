@@ -108,6 +108,10 @@ nmap <silent> <C-l> :wincmd l<CR>
 nmap <silent> <C-n> :cn<CR>
 nmap <silent> <C-p> :cp<CR>
 
+" open files from quickfix in a new tab
+" http://stackoverflow.com/questions/6852763/vim-quickfix-list-launch-files-in-new-tab#6853779
+:set switchbuf+=usetab,newtab
+
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
 " files.
