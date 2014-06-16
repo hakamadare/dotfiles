@@ -65,3 +65,6 @@
 [submodule "vim/bundle/csv.vim"]
 	path = vim/bundle/csv.vim
 	url = https://github.com/chrisbra/csv.vim.git
+[submodule "vim/bundle/vim-json"]
+	path = vim/bundle/vim-json
+	url = https://github.com/elzr/vim-json.git
