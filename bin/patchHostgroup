@@ -43,7 +43,7 @@ Readonly my $SSH_CMD         => 'ssh -t';
 sub usage() {
     print <<"USAGE";
 Usage: $0 (--verbose|-v) <hostgroup> (<hostgroup>...)
-       $0 (--list|-l)
+       $0 (--list|-l) (--script|-s)
        $0 (--flush|-f)
        $0 (--noop|--dry-run|-n)
        $0 (--package|-p)
@@ -107,16 +107,26 @@ sub prettyPrint($@) {
   print join( "\n", @output ), "\n\n";
 }
 
-sub printHostgroups($) {
-  my( $hostgroups ) = ( @_ );
+sub scriptPrint(@) {
+  my( @items ) = @_;
+  print join( ' ', sort( @items ) ), ' ';
+}
+
+sub printHostgroups($$) {
+  my( $hostgroups, $script ) = ( @_ );
 
   my( @names ) = keys( %{$hostgroups} );
 
-  prettyPrint( "Hostgroups:\n", @names );
+  if ( $script ) {
+    scriptPrint( @names );
+  }
+  else {
+    prettyPrint( "Hostgroups:\n", @names );
+  }
 }
 
-sub printHostgroup($$) {
-  my( $hostgroup, $hostgroups ) = ( @_ );
+sub printHostgroup($$$) {
+  my( $hostgroup, $hostgroups, $script ) = ( @_ );
 
   my( @hosts );
   if ( defined( $hostgroups->{$hostgroup} ) ) {
@@ -124,7 +134,12 @@ sub printHostgroup($$) {
   }
 
   if ( @hosts ) {
-    prettyPrint( "Hosts in hostgroup '$hostgroup':\n", @hosts );
+    if ( $script ) {
+      scriptPrint( @hosts );
+    }
+    else {
+      prettyPrint( "Hosts in hostgroup '$hostgroup':\n", @hosts );
+    }
   }
   else {
     warn( "No hosts found in hostgroup '$hostgroup'!\n" );
@@ -182,10 +197,11 @@ sub patchHostgroup($$$$@) {
 # MAIN
 
 # parse command-line args
-my( $list, $flush, $exclude, $verbose, $noop ) = 0;
+my( $list, $script, $flush, $exclude, $verbose, $noop ) = 0;
 my( @packages );
 my %options = (
   'list|l'         => \$list,
+  'script|s'       => \$script,
   'noop|dry-run|n' => \$noop,
   'flush|f'        => \$flush,
   'package|p=s'    => \@packages,
@@ -214,12 +230,12 @@ elsif ( $list ) {
   if ( scalar( @ARGV ) ) {
     # print hosts in hostgroups
     while ( my $hostgroup = shift( @ARGV ) ) {
-      printHostgroup( $hostgroup, $hostgroups );
+      printHostgroup( $hostgroup, $hostgroups, $script );
     }
   }
   else {
     # print available hostgroups
-    printHostgroups( $hostgroups );
+    printHostgroups( $hostgroups, $script );
   }
   exit 0;
 }
