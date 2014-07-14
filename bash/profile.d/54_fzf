@@ -1,0 +1,4 @@
+export FZF_DEFAULT_COMMAND='ag -l -g ""'
+export FZF_DEFAULT_OPTS='-x'
+
+# vim: set ft=sh ts=2 sw=2 tw=0 foldmethod=manual :
