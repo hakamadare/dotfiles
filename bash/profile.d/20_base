@@ -18,7 +18,12 @@
 
 # nano is a nice default editor, you can also set this to vim or emacs
 export EDITOR='mvim -f'
+
+# use less as our pager
 export PAGER='less'
+export LESS='-R'
+LESSPIPE='/opt/boxen/homebrew/bin/lesspipe.sh'
+[ -x "$LESSPIPE" ] && eval $("$LESSPIPE")
 
 # some programs will display color output if this is set
 export CLICOLOR=1
