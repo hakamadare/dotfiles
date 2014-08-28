@@ -1,0 +1,4 @@
+# view_max_width = 33 (max 81)
+view_max_width = 66
+# view_max_height = 21 (max 71)
+view_max_height = 42
