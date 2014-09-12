@@ -150,6 +150,11 @@ command -range=% Markdown <line1>,<line2>!markdown
 command -range=% HTidy <line1>,<line2>!tidyp -ashtml -wrap 72 -config ~/.vim/tidy/tidy.conf
 command -range=% XTidy <line1>,<line2>!tidyp -asxhtml -wrap 0 -config ~/.vim/tidy/tidy.conf
 
+" Vimpager
+let vimpager_use_gvim = 1
+let vimpager_disable_x11 = 1
+let vimpager_scrolloff = 5
+
 " Plugins:
 
 runtime macros/matchit.vim  " enable vim's built-in matchit script (make % bounce between tags, begin/end, etc)
