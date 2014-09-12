@@ -151,7 +151,7 @@ command -range=% HTidy <line1>,<line2>!tidyp -ashtml -wrap 72 -config ~/.vim/tid
 command -range=% XTidy <line1>,<line2>!tidyp -asxhtml -wrap 0 -config ~/.vim/tidy/tidy.conf
 
 " Vimpager
-let vimpager_use_gvim = 1
+let vimpager_use_gvim = 0
 let vimpager_disable_x11 = 1
 let vimpager_scrolloff = 5
 
