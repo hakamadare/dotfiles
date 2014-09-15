@@ -1,6 +1,7 @@
 # Powerline
 
-export POWERLINE_COMMAND="${HOME}/Library/Python/2.7/bin/powerline"
+# export POWERLINE_COMMAND="${HOME}/Library/Python/2.7/bin/powerline"
+export POWERLINE_COMMAND="/opt/boxen/pyenv/shims/powerline"
 
 powerline_path=$(python -c 'import pkgutil; print pkgutil.get_loader("powerline").filename' 2>/dev/null)
 # clobber existing prompt if we have Powerline
