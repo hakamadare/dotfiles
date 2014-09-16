@@ -29,21 +29,11 @@
 				}
 			},
 			{
-				"function": "cwd",
+				"function": "powerline.segments.shell.cwd",
 				"priority": 10,
 				"args": {
 					"dir_limit_depth": 2
 				}
-			},
-			{
-				"module": "powerline.segments.shell",
-				"priority": 10,
-				"function": "jobnum"
-			},
-			{
-				"function": "last_status",
-				"priority": 10,
-				"module": "powerline.segments.shell"
 			}
 		]
 	}
