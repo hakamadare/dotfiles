@@ -50,6 +50,7 @@ HISTTIMEFORMAT=`echo -e "$\033[0;33m%h %e %H:%M$\033[0m  "`
 
 # check window size after each command and update LINES/COLUMNS if necessary
 shopt -s checkwinsize
+trap 'eval `resize`' SIGWINCH
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /opt/boxen/homebrew/bin/lesspipe.sh ] && eval "$(SHELL=/bin/sh /opt/boxen/homebrew/bin/lesspipe.sh)"
