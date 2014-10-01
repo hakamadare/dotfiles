@@ -121,7 +121,7 @@ colorscheme solarized
 let g:solarized_termcolors=256
 
 " Append modeline after last line in buffer.
-nnoremap <silent> <Leader>ml :Modeliner<CR>
+nnoremap <silent> <Leader>ml :call Modeliner()<CR>
 
 " Powerline
 
