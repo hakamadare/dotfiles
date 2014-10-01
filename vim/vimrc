@@ -112,17 +112,6 @@ nmap <silent> <C-p> :cp<CR>
 " http://stackoverflow.com/questions/6852763/vim-quickfix-list-launch-files-in-new-tab#6853779
 :set switchbuf+=usetab,newtab
 
-" Append modeline after last line in buffer.
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-" files.
-function! AppendModeline()
-  let l:modeline = printf(" vim: set ft=%s ts=%d sw=%d tw=%d foldmethod=%s :",
-        \ &filetype, &tabstop, &shiftwidth, &textwidth, &foldmethod)
-  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  call append(line("$"), l:modeline)
-endfunction
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
-
 " Pathogen ho!
 execute pathogen#infect()
 
@@ -130,6 +119,9 @@ execute pathogen#infect()
 set background=dark
 colorscheme solarized
 let g:solarized_termcolors=256
+
+" Append modeline after last line in buffer.
+nnoremap <silent> <Leader>ml :Modeliner<CR>
 
 " Powerline
 
@@ -233,3 +225,5 @@ let g:syntastic_shell_checkers = ['shellcheck']
 " Static: Wikipedia
 " Static: csv.vim
 " Static: jinja
+
+" vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 : 

@@ -71,3 +71,6 @@
 [submodule "vim/bundle/vim-perl"]
 	path = vim/bundle/vim-perl
 	url = https://github.com/vim-perl/vim-perl.git
+[submodule "vim/bundle/Modeliner"]
+	path = vim/bundle/Modeliner
+	url = https://github.com/vim-scripts/Modeliner.git
