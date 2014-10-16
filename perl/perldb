@@ -1,0 +1,4 @@
+# perl debugger configuration
+
+use DB::Color;
+
