@@ -74,3 +74,6 @@
 [submodule "vim/bundle/Modeliner"]
 	path = vim/bundle/Modeliner
 	url = https://github.com/vim-scripts/Modeliner.git
+[submodule "vim/bundle/editorconfig-vim"]
+	path = vim/bundle/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim.git
