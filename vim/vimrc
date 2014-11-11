@@ -123,16 +123,6 @@ let g:solarized_termcolors=256
 " Append modeline after last line in buffer.
 nnoremap <silent> <Leader>ml :Modeliner<CR>
 
-" Powerline
-
-" PCRE for search/replace
-" https://github.com/othree/eregex.vim
-" Bundle: othree/eregex.vim
-"nnoremap / :M/
-"nnoremap ? :M?
-"nnoremap ,/ /
-"nnoremap ,? ?
-
 " Other custom commands
 
 " Markdown filtering
@@ -226,4 +216,4 @@ let g:syntastic_puppet_puppetlint_arguments = '--no-single_quote_string_with_var
 " Static: csv.vim
 " Static: jinja
 
-" vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 : 
+" vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
