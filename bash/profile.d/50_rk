@@ -6,4 +6,10 @@ if [[ "$USER" = 'rk' ]]; then
   if [ $? -eq 0 ]; then
     mv /tmp/rk-known-hosts "${HOME}/.ssh/rk-known-hosts" >/dev/null 2>&1
   fi
+
+  # patchHostgroup completion
+  function _getopt_complete () {
+    COMPREPLY=($( COMP_CWORD=$COMP_CWORD perl `which ${COMP_WORDS[0]}` ${COMP_WORDS[@]:0} ));
+  }
+  complete -F _getopt_complete patchHostgroup
 fi
