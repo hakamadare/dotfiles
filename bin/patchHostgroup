@@ -36,7 +36,7 @@ use Smart::Comments;
 
 require Getopt::Complete;
 
-use version; our $VERSION = qv("1.4.1");
+use version; our $VERSION = qv("1.4.2");
 
 # defaults
 our $CACHE_NAMESPACE = 'patchHostgroup';
@@ -103,7 +103,7 @@ sub getHostgroups {
   unless ( defined( $raw_json ) ) {
     # download the JSON
     my $ua = LWP::UserAgent->new;
-    $ua->timeout(10);
+    $ua->timeout(1);
     $ua->env_proxy;
 
     my $response = $ua->get($cooked_url);
@@ -112,7 +112,7 @@ sub getHostgroups {
       $raw_json = $response->decoded_content;
     }
     else {
-      warn( "Unable to query hostgroups: " . $response->status_line . "\n" );
+      # warn( "Unable to query hostgroups: " . $response->status_line . "\n" );
 
       # try the fallback
       if ( -r $fallback ) {
