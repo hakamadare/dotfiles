@@ -36,7 +36,7 @@ use Smart::Comments;
 
 require Getopt::Complete;
 
-use version; our $VERSION = qv("1.4.0");
+use version; our $VERSION = qv("1.4.1");
 
 # defaults
 our $CACHE_NAMESPACE = 'patchHostgroup';
@@ -273,8 +273,8 @@ use Getopt::Complete (
     my $hostgroups = getHostgroups(
       cache    => $cache,
       flush    => 0,
-      remote   => $HOSTGROUPS_URL,
-      fallback => $HOSTGROUPS_FILE,
+      remote   => 'http://puppet.runkeeper.com/statics/hosts_and_hostgroups.json',
+      fallback => '/Users/rk/.RK/hosts_and_hostgroups.json',
     );
     my( @completions ) = sort( keys( %{$hostgroups} ) );
     return \@completions;
@@ -320,9 +320,9 @@ if ( $complete ) {
 }
 
 my $hostgroups = getHostgroups(
-  cache => $cache,
-  flush => $flush,
-  remote => $HOSTGROUPS_URL,
+  cache    => $cache,
+  flush    => $flush,
+  remote   => $HOSTGROUPS_URL,
   fallback => $HOSTGROUPS_FILE,
 );
 
