@@ -22,9 +22,9 @@ BEGIN {
 
 use Cache::FileCache;
 use Env qw(HOME);
+use File::Slurp;
 use File::Spec;
 use Getopt::Complete;
-# use Getopt::Long;
 use JSON;
 use LWP::UserAgent;
 use String::ShellQuote;
@@ -36,13 +36,14 @@ use Smart::Comments;
 
 require Getopt::Complete;
 
-use version; our $VERSION = qv("1.3.0");
+use version; our $VERSION = qv("1.4.0");
 
 # defaults
 our $CACHE_NAMESPACE = 'patchHostgroup';
 our $CACHE_ROOT      = File::Spec->catdir( $HOME, '.' . $CACHE_NAMESPACE );
 our $CACHE_EXPIRY    = '1month';
 our $HOSTGROUPS_URL  = 'http://puppet.runkeeper.com/statics/hosts_and_hostgroups.json';
+our $HOSTGROUPS_FILE = File::Spec->catfile( $HOME, '.RK', 'hosts_and_hostgroups.json' );
 our $SSH_CMD         = 'ssh -t';
 
 # determine program name
@@ -73,12 +74,13 @@ BASH
   print "$snippet\n";
 }
 
-sub getHostgroups($$$) {
-  my( $cache, $flush, $raw_url ) = ( @_ );
+sub getHostgroups {
+  my( %params ) = ( @_ );
+  my( $cache, $flush, $raw_url, $fallback ) = ( $params{cache}, $params{flush}, $params{remote}, $params{fallback} );
   my( $raw_json, $cooked_json );
 
   unless ( defined( $raw_url ) ) {
-    $raw_url = 'http://puppet.runkeeper.com/statics/hosts_and_hostgroups.json';
+    $raw_url = $HOSTGROUPS_URL;
   }
 
   my $cooked_url = URI->new( $raw_url );
@@ -110,7 +112,15 @@ sub getHostgroups($$$) {
       $raw_json = $response->decoded_content;
     }
     else {
-      die( "Unable to query hostgroups: " . $response->status_line . "\n" );
+      warn( "Unable to query hostgroups: " . $response->status_line . "\n" );
+
+      # try the fallback
+      if ( -r $fallback ) {
+        $raw_json = read_file( $fallback );
+      }
+      else {
+        die( "Unable to read fallback: $fallback\n" );
+      }
     }
 
     # cache the JSON
@@ -133,7 +143,7 @@ sub getHostgroups($$$) {
   return $hostgroups;
 }
 
-sub prettyPrint($@) {
+sub prettyPrint {
   my( $header, @items ) = ( @_ );
 
   my( @output ) = sort( map { sprintf( '    %s', $_ ) } @items );
@@ -144,12 +154,12 @@ sub prettyPrint($@) {
   print join( "\n", @output ), "\n\n";
 }
 
-sub scriptPrint(@) {
+sub scriptPrint {
   my( @items ) = @_;
   print join( ' ', sort( @items ) ), ' ';
 }
 
-sub printHostgroups($$) {
+sub printHostgroups {
   my( $hostgroups, $script ) = ( @_ );
 
   my( @names ) = keys( %{$hostgroups} );
@@ -162,7 +172,7 @@ sub printHostgroups($$) {
   }
 }
 
-sub printHostgroup($$$) {
+sub printHostgroup {
   my( $hostgroup, $hostgroups, $script ) = ( @_ );
 
   # hack to skip cli options
@@ -188,7 +198,7 @@ sub printHostgroup($$$) {
   }
 }
 
-sub patchHostgroup($$$$@) {
+sub patchHostgroup {
   my( $hostgroup, $hostgroups, $noop, $verbose, @packages ) = ( @_ );
 
   # build the list of hosts to patch
@@ -260,7 +270,12 @@ use Getopt::Complete (
   'version|V!'      => undef,
   '<>'              => sub {
     my( $command, $value, $option, $other_opts ) = @_;
-    my $hostgroups = getHostgroups( $cache, 0, 'http://puppet.runkeeper.com/statics/hosts_and_hostgroups.json' );
+    my $hostgroups = getHostgroups(
+      cache    => $cache,
+      flush    => 0,
+      remote   => $HOSTGROUPS_URL,
+      fallback => $HOSTGROUPS_FILE,
+    );
     my( @completions ) = sort( keys( %{$hostgroups} ) );
     return \@completions;
   },
@@ -304,7 +319,12 @@ if ( $complete ) {
   exit 0;
 }
 
-my $hostgroups = getHostgroups( $cache, $flush, 'http://puppet.runkeeper.com/statics/hosts_and_hostgroups.json' );
+my $hostgroups = getHostgroups(
+  cache => $cache,
+  flush => $flush,
+  remote => $HOSTGROUPS_URL,
+  fallback => $HOSTGROUPS_FILE,
+);
 
 if ( $flush ) {
     $cache->clear();
