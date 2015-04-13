@@ -1,4 +1,8 @@
 # scalaenv configuration
+export SCALAENV_ROOT=/opt/boxen/homebrew/var/scalaenv
+
 if which scalaenv > /dev/null; then
   eval "$(scalaenv init -)";
 fi
+
+# vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
