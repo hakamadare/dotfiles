@@ -131,7 +131,7 @@ eval "$(hub alias -s)"
 [ -x /opt/boxen/homebrew/bin/colortail ] && alias tail=colortail
 
 # thefuck
-[ -x /opt/boxen/homebrew/bin/thefuck ] && alias dammit=thefuck
+[ -x /opt/boxen/homebrew/bin/thefuck ] && alias dammit='eval $(thefuck $(fc -ln -1))'
 
 # vi mode for editing
 set -o vi
