@@ -141,36 +141,6 @@ let vimpager_scrolloff = 5
 
 runtime macros/matchit.vim  " enable vim's built-in matchit script (make % bounce between tags, begin/end, etc)
 
-" Bundle: tpope/vim-surround
-" https://github.com/tpope/vim-surround/commit/f6c9d3beb2d11959d22b2555636aeb0c37e66aa1
-" autocmd VimEnter * xunmap s
-
-" Bundle: majutsushi/tagbar
-"nmap <Space>l :TagbarToggle<cr>
-
-" Bundle: msanders/snipmate.vim
-" Bundle: scrooloose/snipmate-snippets
-
-" Bundle: tpope/vim-repeat v1.0
-
-" gitgutter
-" Bundle: airblade/vim-gitgutter
-
-" Gundo
-" Bundle: sjl/gundo.vim v2.5.0
-"nnoremap <C-U> :GundoToggle<CR>
-
-" Bundle: bronson/vim-trailing-whitespace 1.0
-" Bundle: bronson/vim-toggle-wrap 0.1
-
-
-" Syntax Files:
-" Bundle: tpope/vim-git v6.0
-" TODO: should move back to hallison or plasticboy markdown when they pick up new changes
-" DISABLEDBundle: gmarik/vim-markdown v1.2.2
-" Bundle: plasticboy/vim-markdown
-"let g:vim_markdown_folding_disabled=1
-
 " Syntastic
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_messages = { 'level': 'warnings' }
@@ -183,37 +153,13 @@ let g:syntastic_puppet_puppetlint_arguments = '--no-single_quote_string_with_var
 
 " let g:syntastic_disabled_filetypes = [ 'perl' ]
 
-" ack
-" Bundle: mileszs/ack.vim
-
-" GnuPG
-" Bundle: jamessan/vim-gnupg v2.5
-
-" line numbering
-" Bundle: myusuf3/numbers.vim
-
-" ConqueTerm
-" Bundle: nicoraffo/conque
-"let g:ConqueTerm_Color = 1
-"let g:ConqueTerm_TERM = 'xterm-256color'
-
-" JSON
-" Bundle: leshill/vim-json
-
-" vim-sleuth
-" Bundle: tpope/vim-sleuth v1.1
-
-" tcomment
-" let g:tcomment_types = {'jinja': ['mode'='G', 'begin'='{# ', 'end'=' #}',]}
-
-" Static bundles
-" Static: debcontrol_syntax
-" Static: svncommit
-" Static: syscolorize
-" Static: taskwarrior
-" Static: tcomment_vim
-" Static: Wikipedia
-" Static: csv.vim
-" Static: jinja
+" Taglist
+let g:Tlist_Auto_Open=1
+let g:Tlist_Exit_OnlyWindow=1
+let g:Tlist_File_Fold_Auto_Close=1
+let g:Tlist_Sort_Type="name"
+let g:Tlist_Show_Menu=1
+let g:Tlist_Use_Right_Window=1
+let g:Tlist_WinWidth=30
 
 " vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
