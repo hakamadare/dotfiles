@@ -86,3 +86,6 @@
 [submodule "vim/bundle/vim-taglist"]
 	path = vim/bundle/vim-taglist
 	url = https://github.com/vim-scripts/taglist.vim
+[submodule "vim/bundle/sbt-vim"]
+	path = vim/bundle/sbt-vim
+	url = https://github.com/ktvoelker/sbt-vim.git
