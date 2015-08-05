@@ -1,4 +1,4 @@
 export FZF_DEFAULT_COMMAND='pt -l ""'
-export FZF_DEFAULT_OPTS='-x'
+export FZF_DEFAULT_OPTS='-x --ansi --color=dark,fg:244,bg:-1,hl:166,fg+:245,bg+:235,hl+:160,info:136,prompt:33'
 
 # vim: set ft=sh ts=2 sw=2 tw=0 foldmethod=manual :
