@@ -3,3 +3,4 @@ parallel/tmp
 vim/tmp/*
 vim/doc/*
 vim/bundle/powerline
+vim/bundle/*/doc/tags
