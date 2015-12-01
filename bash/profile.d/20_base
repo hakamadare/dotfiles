@@ -125,10 +125,11 @@ unset fasd_cache
 # hub
 eval "$(hub alias -s)"
 
-# colordiff, colormake
+# colordiff, colormake, colortail, ccat
 [ -x /opt/boxen/homebrew/bin/colordiff ] && alias diff=colordiff
 [ -x /opt/boxen/homebrew/bin/colormake ] && alias make=colormake
 [ -x /opt/boxen/homebrew/bin/colortail ] && alias tail=colortail
+[ -x /opt/boxen/homebrew/bin/ccat ] && alias cat=ccat
 
 # thefuck
 [ -x /opt/boxen/homebrew/bin/thefuck ] && alias dammit='eval $(thefuck $(fc -ln -1))'
