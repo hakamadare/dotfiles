@@ -72,8 +72,11 @@ set tabstop=2
 
 " fixes
 
-" Python support for Neovim
-let g:python_host_prog='/opt/boxen/homebrew/bin/python'
+" for Neovim
+if has('nvim')
+  " Python support
+  let g:python_host_prog='/opt/boxen/homebrew/bin/python'
+endif
 
 " add a keybinding to toggle paste mode
 nnoremap <leader>p :set paste!<CR>:set paste?<CR>
