@@ -78,7 +78,7 @@ if has('nvim')
   let g:python_host_prog='/opt/boxen/homebrew/bin/python'
 
   " source gvimrc
-  if has('gui_running')
+  if exists('neovim_dot_app')
     source '~/.gvimrc'
   endif
 endif
