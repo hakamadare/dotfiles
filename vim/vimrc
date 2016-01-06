@@ -76,6 +76,11 @@ set tabstop=2
 if has('nvim')
   " Python support
   let g:python_host_prog='/opt/boxen/homebrew/bin/python'
+
+  " source gvimrc
+  if has('gui_running')
+    source '~/.gvimrc'
+  endif
 endif
 
 " add a keybinding to toggle paste mode
