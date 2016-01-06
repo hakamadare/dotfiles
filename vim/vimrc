@@ -77,9 +77,23 @@ if has('nvim')
   " Python support
   let g:python_host_prog='/opt/boxen/homebrew/bin/python'
 
-  " source gvimrc
+  " Neovim.app options
   if exists('neovim_dot_app')
-    source '~/.gvimrc'
+    "How about a larger starting window?
+    set lines=40 columns=100
+
+    " Do not ring the bell, ever
+    set visualbell
+
+    " hide gvim's toolbar by default
+    set guioptions-=T
+
+    " Tab label is filename, tooltip is full path and file name
+    set guitablabel=%t
+    set guitabtooltip=%F
+
+    " Always show the tab bar
+    set showtabline=2
   endif
 endif
 
