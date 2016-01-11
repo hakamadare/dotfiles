@@ -175,7 +175,7 @@ complete -F _fzf_opts_completion fzf
 d_cmds="cd pushd rmdir"
 f_cmds="
   awk cat diff diff3
-  emacs ex file ftp g++ gcc gvim head hg java
+  emacs ex file ftp g++ gcc gnvim gvim head hg java
   javac ld less more mvim patch perl python ruby
   sed sftp sort source tail tee uniq vi view vim wc"
 a_cmds="
