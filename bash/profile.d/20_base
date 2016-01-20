@@ -17,11 +17,23 @@
 [ -f /etc/bashrc ] && source /etc/bashrc
 
 # nano is a nice default editor, you can also set this to vim or emacs
-export EDITOR='mvim -f'
+if [ "$(which gnvim)" ]; then
+  EDITOR='gnvim -f'
+elif [ "$(which mvim)" ]; then
+  EDITOR='mvim -f'
+else
+  EDITOR='vim'
+fi
+export EDITOR
 
 # use vimpager as our pager
-export PAGER='vimpager'
-# export PAGER='less'
+if [ "$(which vimpager)" ]; then
+  PAGER='vimpager'
+else
+  PAGER='less'
+fi
+export PAGER
+
 export LESS='-R'
 LESSPIPE='/opt/boxen/homebrew/bin/lesspipe.sh'
 [ -x "$LESSPIPE" ] && eval $("$LESSPIPE")
