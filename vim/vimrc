@@ -94,6 +94,13 @@ if has('nvim')
 
     " Always show the tab bar
     set showtabline=2
+
+    " Avoid E173
+    if argc() > 1
+      silent blast " load last buffer
+      silent bfirst " switch back to the first
+    endif
+
   endif
 endif
 
