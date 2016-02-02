@@ -1,4 +1,6 @@
 *~
+ammonite/cache
+ammonite/history
 parallel/tmp
 vim/tmp/*
 vim/doc/*
