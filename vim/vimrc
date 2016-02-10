@@ -74,6 +74,9 @@ set tabstop=2
 
 " for Neovim
 if has('nvim')
+  " Add Homebrew bindir to rtp
+  set runtimepath+='/opt/boxen/homebrew/bin'
+
   " Python support
   let g:python_host_prog='/opt/boxen/homebrew/bin/python'
 
@@ -94,6 +97,9 @@ if has('nvim')
 
     " Always show the tab bar
     set showtabline=2
+
+    " Allow true colors in terminal
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
     " Avoid E173
     if argc() > 1
