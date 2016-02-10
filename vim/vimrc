@@ -74,9 +74,6 @@ set tabstop=2
 
 " for Neovim
 if has('nvim')
-  " Add Homebrew bindir to rtp
-  set runtimepath+='/opt/boxen/homebrew/bin'
-
   " Python support
   let g:python_host_prog='/opt/boxen/homebrew/bin/python'
 
@@ -203,5 +200,6 @@ let g:Tlist_Sort_Type="name"
 let g:Tlist_Show_Menu=1
 let g:Tlist_Use_Right_Window=1
 let g:Tlist_WinWidth=30
+let g:Tlist_Ctags_Cmd='/opt/boxen/homebrew/bin/ctags'
 
 " vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
