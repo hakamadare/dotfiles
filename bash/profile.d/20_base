@@ -134,9 +134,6 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
-# hub
-eval "$(hub alias -s)"
-
 # colordiff, colormake, colortail, ccat
 [ -x /opt/boxen/homebrew/bin/colordiff ] && alias diff=colordiff
 [ -x /opt/boxen/homebrew/bin/colormake ] && alias make=colormake
