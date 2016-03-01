@@ -171,9 +171,14 @@ command -range=% XTidy <line1>,<line2>!tidyp -asxhtml -wrap 0 -config ~/.vim/tid
 let g:airline_powerline_fonts=1
 
 " Vimpager
-let vimpager_use_gvim = 0
-let vimpager_disable_x11 = 1
-let vimpager_scrolloff = 5
+if exists('g:vimpager')
+  let g:vimpager = {}
+  let g:less = {}
+  let g:vimpager.ansiesc = 0
+  let g:vimpager.gvim = 0
+  let g:vimpager.X11 = 0
+  let g:less.scrolloff = 5
+endif
 
 " Plugins:
 
