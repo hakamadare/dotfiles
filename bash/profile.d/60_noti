@@ -1,0 +1,3 @@
+# Noti
+# https://github.com/variadico/noti
+export NOTI_DEFAULT='pushover banner'
