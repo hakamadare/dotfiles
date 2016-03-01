@@ -1,0 +1,5 @@
+" Vimpager
+let vimpager_disable_ansiesc = 1
+let vimpager_use_gvim = 0
+let vimpager_disable_x11 = 1
+let vimpager_scrolloff = 5

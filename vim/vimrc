@@ -170,14 +170,6 @@ command -range=% XTidy <line1>,<line2>!tidyp -asxhtml -wrap 0 -config ~/.vim/tid
 " Airline
 let g:airline_powerline_fonts=1
 
-" Vimpager
-if exists("vimpager")
-  let vimpager_disable_ansiesc = 1
-  let vimpager_use_gvim = 0
-  let vimpager_disable_x11 = 1
-  let vimpager_scrolloff = 5
-endif
-
 " Plugins:
 
 runtime macros/matchit.vim  " enable vim's built-in matchit script (make % bounce between tags, begin/end, etc)
