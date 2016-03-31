@@ -11,3 +11,6 @@ fi
 # brew-pip
 export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages
 export PATH=$PATH:$(brew --prefix)/share/python
+
+# rbenv plugins
+export RUBY_BUILD_DEFINITIONS=/opt/boxen/rbenv/plugins/ruby-build-update-defs/share/ruby-build:$RUBY_BUILD_DEFINITIONS
