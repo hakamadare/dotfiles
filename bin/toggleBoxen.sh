@@ -11,6 +11,7 @@ elif [[ -d $BOXEN_HOME ]]; then
   chown -R $SUDO_REAL_USER $BOXEN_HOME 2>/dev/null
   chown -R $SUDO_REAL_USER /Library/Caches/Homebrew 2>/dev/null
   chown -R $SUDO_REAL_USER /opt/rubies 2>/dev/null
+  chown -R $SUDO_REAL_USER /opt/homebrew-cask/Caskroom 2>/dev/null
 
   BOXEN_CONFIG_DEFAULTS="${BOXEN_CONFIG_DIR}/boxen/defaults.json"
   if [[ -w $BOXEN_CONFIG_DEFAULTS ]]; then
