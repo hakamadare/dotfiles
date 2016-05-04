@@ -1,0 +1,5 @@
+# command completion for sshrc
+# see https://github.com/Russell91/sshrc/issues/44#issuecomment-124967391
+
+_completion_loader ssh 2>/dev/null # for bash-completion >= 1.90, bash >= 4.1
+eval $(complete -p ssh | sed 's/ ssh$/ sshrc/')
