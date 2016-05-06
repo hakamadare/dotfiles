@@ -1,0 +1,3 @@
+# shell support for GNU Readline
+
+export INPUTRC="${HOME}/.inputrc"

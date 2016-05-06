@@ -1,0 +1,4 @@
+# GNU Readline config
+
+# vi-mode 4 eva
+set editing-mode vi
