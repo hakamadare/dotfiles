@@ -197,4 +197,20 @@ let g:Tlist_Use_Right_Window=1
 let g:Tlist_WinWidth=30
 let g:Tlist_Ctags_Cmd='/opt/boxen/homebrew/bin/ctags'
 
+" EasyMotion
+
+" Replace default search with EasyMotion
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+
+" smartcase/smartsign
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_smartsign_us = 1
+
 " vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
