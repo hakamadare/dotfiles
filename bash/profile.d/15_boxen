@@ -8,6 +8,9 @@ if [[ -x $TOGGLE_BOXEN && ! -O $BOXEN_HOME ]]; then
   source /opt/boxen/env.sh
 fi
 
+# Homebrew Cask
+export HOMEBREW_CASK_OPTS="${HOMEBREW_CASK_OPTS} --binarydir=/opt/boxen/homebrew/bin"
+
 # brew-pip
 export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages
 
