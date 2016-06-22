@@ -2,5 +2,10 @@
 if which pyenv > /dev/null; then
   export PYENV_ROOT=/opt/boxen/homebrew/opt/pyenv
   eval "$(pyenv init -)";
-  eval "$(pyenv virtualenv-init -)";
+
+  if which pyenv-virtualenv-init > /dev/null; then
+    eval "$(pyenv virtualenv-init -)";
+  fi
 fi
+
+# vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 : 
