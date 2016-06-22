@@ -2,4 +2,5 @@
 if which pyenv > /dev/null; then
   export PYENV_ROOT=/opt/boxen/homebrew/opt/pyenv
   eval "$(pyenv init -)";
+  eval "$(pyenv virtualenv-init -)";
 fi
