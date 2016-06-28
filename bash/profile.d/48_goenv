@@ -1,0 +1,6 @@
+if which goenv > /dev/null; then
+  export GOENV_ROOT=/opt/boxen/homebrew/var/goenv
+  eval "$(goenv init -)"
+fi
+
+# vim: set et fenc= ff=unix sts=2 sw=2 ts=2 : 
