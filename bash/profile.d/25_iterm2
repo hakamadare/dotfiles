@@ -1,8 +1,6 @@
 # iTerm2 shell integration
 INTEGRATION_FILE="${HOME}/.iterm2_shell_integration.bash"
 
-# NOPE this makes the current iTerm2 beta crash :(
-#
 if [ ! -r "$INTEGRATION_FILE" ]; then
   curl -L https://iterm2.com/misc/bash_startup.in > "$INTEGRATION_FILE"
 fi
