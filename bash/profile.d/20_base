@@ -17,8 +17,8 @@
 [ -f /etc/bashrc ] && source /etc/bashrc
 
 # nano is a nice default editor, you can also set this to vim or emacs
-if [ "$(which vimr)" ]; then
-  EDITOR='vimr'
+if [ "$(which nvim)" ]; then
+  EDITOR='nvim -f'
 elif [ "$(which gnvim)" ]; then
   EDITOR='gnvim -f'
 elif [ "$(which mvim)" ]; then
