@@ -77,6 +77,13 @@ if has('nvim')
   " Python support
   let g:python_host_prog='/opt/boxen/homebrew/bin/python'
 
+  " VimR options
+  if has('gui_vimr')
+    " https://github.com/qvacua/vimr/wiki#initvim
+    set termguicolors
+    set title
+  endif
+
   " Neovim.app options
   if exists('neovim_dot_app')
     "How about a larger starting window?
