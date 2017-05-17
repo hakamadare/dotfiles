@@ -164,6 +164,7 @@ let g:solarized_termcolors=256
 
 " Append modeline after last line in buffer.
 nnoremap <silent> <Leader>ml :Modeliner<CR>
+let g:Modeliner_format = 'et fenc= ff=  ft=  sts=  sw=  ts= '
 
 " Other custom commands
 
