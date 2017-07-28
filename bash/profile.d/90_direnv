@@ -1,0 +1,8 @@
+# direnv hooks
+# shellcheck shell=bash
+
+DIRENV_ACTIVATE="$(brew --prefix direnv)"
+
+if [ -r "$DIRENV_ACTIVATE" ]; then
+  eval "$(direnv hook bash)"
+fi
