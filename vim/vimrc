@@ -75,7 +75,8 @@ set tabstop=2
 " for Neovim
 if has('nvim')
   " Python support
-  let g:python_host_prog='/opt/boxen/homebrew/bin/python'
+  let g:python_host_prog='/opt/boxen/homebrew/opt/pyenv/versions/neovim-python2/bin/python'
+  let g:python3_host_prog='/opt/boxen/homebrew/opt/pyenv/versions/neovim-python3/bin/python'
 
   " VimR options
   if has('gui_vimr')
