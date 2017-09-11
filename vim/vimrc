@@ -224,6 +224,6 @@ let g:EasyMotion_use_smartsign_us = 1
 
 " vim-worspace
 let g:workspace_persist_undo_history = 1  " enabled = 1 (default), disabled = 0
-let g:workspace_undodir='~/.vim/tmp/undodir'
+let g:workspace_undodir=expand('$HOME/.vim/tmp/undodir')
 
 " vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=2 :
