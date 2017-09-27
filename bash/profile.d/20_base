@@ -9,6 +9,8 @@
 # - run `history` to see your command history, re-run a command from history by
 #   calling the line number like this: `!10`
 # - make sure your terminal emulator supports and is advertising as xterm-color
+#
+# shellcheck shell=bash
 
 # if not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -126,8 +128,8 @@ alias df='df -h'           # human-readable disk free
 alias free='free -t -m'    # human-readable free memory
 
 # if /usr/local/bin or ~/bin exist, add them to the path automatically
-[ -d /usr/local/bin ] && PATH=/usr/local/bin:${PATH}
-[ -d $HOME/bin ] && PATH=$HOME/bin:${PATH}
+[ -d /usr/local/bin ] && PATH=${PATH}:/usr/local/bin
+[ -d $HOME/bin ] && PATH=${PATH}:$HOME/bin
 export PATH
 
 # fasd
